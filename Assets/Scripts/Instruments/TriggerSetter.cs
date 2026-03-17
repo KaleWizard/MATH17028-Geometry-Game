@@ -1,5 +1,6 @@
 using NodeCanvas.Framework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TriggerSetter : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class TriggerSetter : MonoBehaviour
 
     void Start()
     {
-        var blackboard = GetComponentInChildren<Blackboard>();
+        var blackboard = GetComponent<Blackboard>();
 
         compassTrigger = blackboard.GetVariable<bool>("compassTrigger");
         straightEdgeTrigger = blackboard.GetVariable<bool>("straightEdgeTrigger");

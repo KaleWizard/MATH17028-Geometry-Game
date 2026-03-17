@@ -12,12 +12,12 @@ public class Anchor : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         sr.color = baseColor;
-        transform.localEulerAngles = Vector3.forward * AnchorManager.Instance.Rotation;
+        transform.localEulerAngles = Vector3.forward * AnchorManager.Rotation;
     }
 
     void LateUpdate()
     {
-        transform.localEulerAngles = Vector3.forward * AnchorManager.Instance.Rotation;
+        transform.localEulerAngles = Vector3.forward * AnchorManager.Rotation;
     }
 
     public void OnHover()

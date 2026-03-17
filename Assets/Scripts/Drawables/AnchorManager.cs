@@ -4,21 +4,39 @@ using UnityEngine.SceneManagement;
 
 public class AnchorManager : SingletonBehaviour<AnchorManager>
 {
-    public List<Anchor> anchors = new();
+    public static float Rotation => Instance.rotationTimer * Instance.speed;
+    public static List<Anchor> Anchors => Instance.anchors;
+
+    Anchor anchorPrefab;
+
+    List<Anchor> anchors = new();
+    Anchor hovered = null;
 
     float speed = 30f;
-    public float Rotation => rotationTimer * speed;
     float rotationTimer = 0;
 
-    GameObject anchorPrefab;
-
-
-    public void SpawnAnchor(Vector3 position)
+    public static void SpawnAnchor(Vector3 position)
     {
-
+        Anchor inScene = Instantiate(Instance.anchorPrefab, position, Quaternion.identity);
+        Anchors.Add(inScene);
     }
 
+    public static Anchor GetHoveredAnchor(float minDistance = 0.3f)
+    {
+        Anchor hovered = null;
 
+        Vector2 mousePosition = GameUtils.WorldMousePosition();
+        foreach (var anchor in Anchors)
+        {
+            float distance = Vector2.Distance(mousePosition, anchor.transform.position);
+            if (distance < minDistance)
+            {
+                hovered = anchor;
+                minDistance = distance;
+            }
+        }
+        return hovered;
+    }
 
     void Start()
     {
@@ -26,16 +44,13 @@ public class AnchorManager : SingletonBehaviour<AnchorManager>
         GetAnchors();
 
         // Load anchor prefab
-        anchorPrefab = Resources.Load<GameObject>("Prefabs/Anchor");
+        anchorPrefab = Resources.Load<Anchor>("Prefabs/Anchor");
     }
 
     void Update()
     {
-        rotationTimer += Time.deltaTime;
-        if (rotationTimer > 360f)
-        {
-            rotationTimer -= 360f;
-        }
+        SpinAnchors();
+        UpdateHoveredAnchor();
     }
 
     void OnSceneLoad()
@@ -49,5 +64,31 @@ public class AnchorManager : SingletonBehaviour<AnchorManager>
         var sceneAnchors = FindObjectsByType<Anchor>(FindObjectsSortMode.None);
         foreach (var anchor in sceneAnchors)
             anchors.Add(anchor);
+    }
+
+    void SpinAnchors()
+    {
+        rotationTimer += Time.deltaTime;
+        if (rotationTimer > 360f)
+        {
+            rotationTimer -= 360f;
+        }
+    }
+
+    void UpdateHoveredAnchor()
+    {
+        Anchor newHovered = GetHoveredAnchor();
+        if (newHovered && hovered != newHovered)
+        {
+            if (hovered) hovered.OnDeselect();
+            hovered = newHovered;
+            hovered.OnSelect();
+        }
+
+        if (hovered && !newHovered)
+        {
+            hovered.OnDeselect();
+            hovered = null;
+        }
     }
 }
