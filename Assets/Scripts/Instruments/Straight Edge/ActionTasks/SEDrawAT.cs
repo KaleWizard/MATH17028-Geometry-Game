@@ -9,7 +9,9 @@ namespace NodeCanvas.Tasks.Actions {
 
 	public class SEDrawAT : ActionTask
     {
-		Line linePrefab;
+        public BBParameter<GameObject> drawingObj;
+
+        Line linePrefab;
 
 		Line inScene;
 
@@ -37,6 +39,7 @@ namespace NodeCanvas.Tasks.Actions {
 
         protected override void OnExecute() {
             inScene = MonoManager.Instantiate(linePrefab);
+            drawingObj.value = inScene.gameObject;
             anchor = se.AnchorA;
             direction = (Vector2) se.AnchorB - anchor;
             direction.Normalize();
@@ -50,7 +53,7 @@ namespace NodeCanvas.Tasks.Actions {
 			if (!drawing)
             {
                 HoverUpdate();
-                if (Mouse.current.leftButton.wasPressedThisFrame)
+                if (Mouse.current.leftButton.wasPressedThisFrame && !GameUtils.CursorOverUI)
                 {
                     drawing = true;
                 }
@@ -61,6 +64,7 @@ namespace NodeCanvas.Tasks.Actions {
                 if (Mouse.current.leftButton.wasReleasedThisFrame)
                 {
                     inScene.GenerateColliders();
+                    drawingObj.value = null;
                     EndAction(true);
                 }
             }

@@ -21,7 +21,7 @@ namespace NodeCanvas.Tasks.Actions {
 
         protected override void OnUpdate() {
 			Anchor hovered = AnchorManager.GetHoveredAnchor();
-			if (hovered && Mouse.current.leftButton.wasPressedThisFrame)
+			if (hovered && Mouse.current.leftButton.wasPressedThisFrame && !GameUtils.CursorOverUI)
 			{
 				se.SetAnchor(hovered.transform.position);
 				EndAction(true);

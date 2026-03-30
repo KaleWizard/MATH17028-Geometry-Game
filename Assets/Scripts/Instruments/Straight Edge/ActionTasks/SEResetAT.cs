@@ -1,11 +1,14 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
+using ParadoxNotion.Services;
+using UnityEngine;
 
 
 namespace NodeCanvas.Tasks.Actions {
 
 	public class SEResetAT : ActionTask {
 
+		public BBParameter<GameObject> drawing;
 		StraightEdge se;
 
 		protected override string OnInit() {
@@ -17,6 +20,12 @@ namespace NodeCanvas.Tasks.Actions {
 		}
 
 		protected override void OnExecute() {
+			if (drawing.value != null)
+			{
+				MonoManager.Destroy(drawing.value);
+				drawing.value = null;
+			}
+
 			se.ResetAnchors();
 			EndAction(true);
 		}

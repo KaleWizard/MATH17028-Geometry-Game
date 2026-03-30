@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class StraightEdge : MonoBehaviour
 {
-    public float Length => length;
-
-    [SerializeField] Transform visuals;
     [SerializeField] SpriteRenderer baseEdge;
 
+    public float Length => length;
     float length;
 
     public Vector3 AnchorA => positionA;
