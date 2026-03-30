@@ -9,7 +9,13 @@ public class Line : Drawable
 
     private void Start()
     {
-        if (generateOnLoad) GenerateColliders();
+        if (generateOnLoad)
+        {
+            lineTransform.localScale = transform.localScale;
+            transform.localScale = Vector3.one;
+
+            GenerateColliders();
+        }
     }
 
     public void SetRotation(Vector3 direction)
