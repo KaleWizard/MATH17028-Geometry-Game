@@ -9,6 +9,9 @@ public class StraightEdge : MonoBehaviour
 
     float length;
 
+    public Vector3 AnchorA => positionA;
+    public Vector3 AnchorB => positionB;
+
     Vector3 positionA;
     Vector3 positionB;
 
@@ -38,7 +41,12 @@ public class StraightEdge : MonoBehaviour
     public void ResetAnchors()
     {
         anchorsSet = 0;
-        visuals.eulerAngles = Vector3.zero;
+        transform.eulerAngles = Vector3.zero;
+    }
+
+    public bool IsValidAnchor(Anchor anchor)
+    {
+        return (anchorsSet == 0) || (anchorsSet == 1 && Vector3.Distance(anchor.transform.position, positionA) > 0.25f);
     }
 
     void SetPositionRotation()
@@ -54,21 +62,21 @@ public class StraightEdge : MonoBehaviour
     void SetPositionHover()
     {
         Vector2 mousePosition = GameUtils.WorldMousePosition();
-        visuals.position = mousePosition;
+        transform.position = mousePosition;
     }
 
     void SetPosRotOneAnchor()
     {
-        visuals.position = positionA;
+        transform.position = positionA;
         Vector2 mousePosition = GameUtils.WorldMousePosition();
         Vector2 direction = mousePosition - (Vector2) positionA;
-        visuals.right = direction;
+        transform.right = direction;
     }
 
     void SetPosRotTwoAnchors()
     {
-        visuals.position = positionA;
+        transform.position = positionA;
         Vector2 direction = positionB - positionA;
-        visuals.right = direction;
+        transform.right = direction;
     }
 }

@@ -1,13 +1,28 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
+using ParadoxNotion.Services;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 namespace NodeCanvas.Tasks.Actions {
 
 	public class SEDrawAT : ActionTask
     {
+		Line linePrefab;
+
+		Line inScene;
 
         StraightEdge se;
+
+        Vector2 anchor;
+        Vector2 direction;
+
+        float min;
+        float max;
+        Vector3 startPosition;
+
+        bool drawing;
 
         protected override string OnInit()
         {
@@ -15,29 +30,73 @@ namespace NodeCanvas.Tasks.Actions {
             if (!se)
                 return $"{agent.name} requires a StraightEdge component!";
 
+			linePrefab = Resources.Load<Line>("Prefabs/Line");
+
             return null;
         }
 
-        //This is called once each time the task is enabled.
-        //Call EndAction() to mark the action as finished, either in success or failure.
-        //EndAction can be called from anywhere.
         protected override void OnExecute() {
-			EndAction(true);
+            inScene = MonoManager.Instantiate(linePrefab);
+            anchor = se.AnchorA;
+            direction = (Vector2) se.AnchorB - anchor;
+            direction.Normalize();
+
+            drawing = false;
+
+            inScene.SetRotation(direction);
 		}
 
-		//Called once per frame while the action is active.
 		protected override void OnUpdate() {
-			
+			if (!drawing)
+            {
+                HoverUpdate();
+                if (Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    drawing = true;
+                }
+            }
+            else
+            {
+                DrawUpdate();
+                if (Mouse.current.leftButton.wasReleasedThisFrame)
+                {
+                    inScene.GenerateColliders();
+                    EndAction(true);
+                }
+            }
 		}
 
-		//Called when the task is disabled.
-		protected override void OnStop() {
-			
-		}
+        void HoverUpdate()
+        {
+            (min, startPosition) = GetPointOnLine();
+            max = min;
+            inScene.SetPositionLength(startPosition, 0);
+        }
 
-		//Called when the task is paused.
-		protected override void OnPause() {
-			
-		}
+        void DrawUpdate()
+        {
+            var (dist, pos) = GetPointOnLine();
+
+            if (dist < min)
+            {
+                min = dist;
+                startPosition = pos;
+            } else if (dist > max)
+            {
+                max = dist;
+            }
+
+            inScene.SetPositionLength(startPosition, max - min);
+        }
+
+        (float, Vector3) GetPointOnLine()
+        {
+            Vector3 mouseRelative = GameUtils.WorldMousePosition() - anchor;
+
+            float distance = Vector2.Dot(mouseRelative, direction);
+            distance = Mathf.Clamp(distance, 0, se.Length);
+            
+            return (distance, anchor + direction * distance);
+        }
 	}
 }
