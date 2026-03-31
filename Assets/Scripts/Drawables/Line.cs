@@ -7,6 +7,8 @@ public class Line : Drawable
     [SerializeField] Transform lineTransform;
     [SerializeField] Transform colliderTransform;
 
+    public float Length => lineTransform.localScale.x;
+
     private void Start()
     {
         if (generateOnLoad)
@@ -15,6 +17,8 @@ public class Line : Drawable
             transform.localScale = Vector3.one;
 
             GenerateColliders();
+
+            DrawableManager.Instance.AddDrawable(this);
         }
     }
 
@@ -35,5 +39,14 @@ public class Line : Drawable
 
         colliderTransform.localPosition = new(length / 2, 0f, 0f);
         colliderTransform.localScale = new(length + 0.25f, 1f, 1f);
+    }
+
+    public bool IsValidPoint(Vector2 point)
+    {
+        Vector2 start = transform.position;
+        Vector2 end = transform.position + transform.right * lineTransform.localScale.x;
+
+        return Mathf.Min(start.x, end.x) < point.x && Mathf.Max(start.x, end.x) > point.x
+            && Mathf.Min(start.y, end.y) < point.y && Mathf.Max(start.y, end.y) > point.y;
     }
 }

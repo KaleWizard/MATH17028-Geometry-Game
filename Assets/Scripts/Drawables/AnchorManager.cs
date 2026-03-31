@@ -17,6 +17,10 @@ public class AnchorManager : SingletonBehaviour<AnchorManager>
 
     public static void SpawnAnchor(Vector3 position)
     {
+        foreach (var anchor in Anchors)
+            if (Vector3.Distance(position, anchor.transform.position) < 0.25f)
+                return;
+
         Anchor inScene = Instantiate(Instance.anchorPrefab, position, Quaternion.identity);
         Anchors.Add(inScene);
     }

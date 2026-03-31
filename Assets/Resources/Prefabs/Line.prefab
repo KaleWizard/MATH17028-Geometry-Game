@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19910cea3ff3744f8180878524cdee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Line
-  generateOnLoad: 1
+  generateOnLoad: 0
   lineTransform: {fileID: 8220006077180349214}
   colliderTransform: {fileID: 7720771740536364479}
 --- !u!1 &5784090521205960002

@@ -1,20 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BallSpawner : MonoBehaviour
 {
     [SerializeField] GameObject ballPrefab;
 
-    float timer = 0;
-    float time = 2;
-
-    // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > time)
+        if (Mouse.current.rightButton.wasPressedThisFrame)
         {
-            timer -= time;
-            Instantiate(ballPrefab, transform.position, Quaternion.identity);
+            Instantiate(ballPrefab, GameUtils.WorldMousePosition(), Quaternion.identity);
         }
     }
 }

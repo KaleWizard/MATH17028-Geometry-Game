@@ -65,6 +65,9 @@ namespace NodeCanvas.Tasks.Actions {
                 {
                     inScene.GenerateColliders();
                     drawingObj.value = null;
+
+                    DrawableManager.Instance.AddDrawable(inScene);
+
                     EndAction(true);
                 }
             }
@@ -91,6 +94,8 @@ namespace NodeCanvas.Tasks.Actions {
             }
 
             inScene.SetPositionLength(startPosition, max - min);
+
+            DrawableManager.Instance.TryAddAnchors(inScene);
         }
 
         (float, Vector3) GetPointOnLine()

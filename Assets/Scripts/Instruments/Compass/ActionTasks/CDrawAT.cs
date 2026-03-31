@@ -52,7 +52,7 @@ namespace NodeCanvas.Tasks.Actions {
                     inScene = Object.Instantiate(arcPrefab);
                     inScene.transform.right = direction;
                     inScene.SetRadius(radiusBBP.value);
-                    inScene.SetArcLength(0);
+                    inScene.SetArcLength(0, 0);
                     inScene.SetPosition(compass.transform.position);
 
                     min = max = Vector2.SignedAngle(Vector2.left, direction) + 180f;
@@ -64,6 +64,8 @@ namespace NodeCanvas.Tasks.Actions {
                 if (Mouse.current.leftButton.wasReleasedThisFrame)
                 {
                     inScene.GenerateColliders();
+                    DrawableManager.Instance.AddDrawable(inScene);
+
                     EndAction(true);
                 }
             }
@@ -82,14 +84,16 @@ namespace NodeCanvas.Tasks.Actions {
             {
                 min += toMin;
 
-                inScene.SetArcLength((max - min) * Mathf.Deg2Rad);
+                inScene.SetArcLength(min * Mathf.Deg2Rad, max * Mathf.Deg2Rad);
                 inScene.SetRotation(direction);
             } 
             else if (toMax > 0 && Mathf.Abs(toMin) > Mathf.Abs(toMax))
             {
                 max += toMax;
-                inScene.SetArcLength((max - min) * Mathf.Deg2Rad);
+                inScene.SetArcLength(min * Mathf.Deg2Rad, max * Mathf.Deg2Rad);
             }
+
+            DrawableManager.Instance.TryAddAnchors(inScene);
         }
 	}
 }

@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
@@ -5,11 +6,12 @@ public class Arc : Drawable
 {
     [SerializeField] bool generateOnLoad = false;
 
+    [SerializeField] CompositeCollider2D compositeCol;
     [SerializeField] CircleCollider2D outerFillCol;
     [SerializeField] CircleCollider2D centerCutoutCol;
     [SerializeField] PolygonCollider2D arcDividerCol;
-    [SerializeField] Transform startCap;
-    [SerializeField] Transform endCap;
+    [SerializeField] CircleCollider2D startCapCol;
+    [SerializeField] CircleCollider2D endCapCol;
     [Space]
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] int lineFidelity = 32;
@@ -20,12 +22,19 @@ public class Arc : Drawable
     [SerializeField] float radius = 1;
     [SerializeField] float angle = 1;
 
+    public float Radius => radius;
+
+    float minAngle;
+    float maxAngle;
+
     private void Start()
     {
         if (generateOnLoad)
         {
             GenerateColliders();
             UpdateLine();
+
+            DrawableManager.Instance.AddDrawable(this);
         }
     }
 
@@ -39,10 +48,12 @@ public class Arc : Drawable
         transform.position = position;
     }
 
-    public void SetArc(float r, float theta)
+    public void SetArc(float r, float min, float max)
     {
         radius = r;
-        angle = Mathf.Clamp(theta, 0f, Mathf.PI * 2);
+        minAngle = min;
+        maxAngle = max;
+        angle = Mathf.Clamp(max - min, 0f, Mathf.PI * 2);
         UpdateLine();
     }
 
@@ -52,9 +63,11 @@ public class Arc : Drawable
         UpdateLine();
     }
 
-    public void SetArcLength(float theta)
+    public void SetArcLength(float min, float max)
     {
-        angle = Mathf.Clamp(theta, 0f, Mathf.PI * 2);
+        minAngle = min;
+        maxAngle = max;
+        angle = Mathf.Clamp(max - min, 0f, Mathf.PI * 2);
         UpdateLine();
     }
 
@@ -71,11 +84,26 @@ public class Arc : Drawable
 
         for (int i = 0; i < path.Length - 1; i++) 
         {
-            float pointAngle = angle * i / (polyFidelity - 2);
+            float pointAngle = angle + (math.TAU - angle) * i / (polyFidelity - 2);
             path[i + 1] = new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle)) * distance;
         }
 
         arcDividerCol.SetPath(0, path);
+        compositeCol.GenerateGeometry();
+    }
+
+    public bool IsValidPoint(Vector2 point)
+    {
+        return IsValidDirection(point - (Vector2) transform.position);
+    }
+
+    public bool IsValidDirection(Vector2 direction)
+    {
+        float theta = (Vector2.SignedAngle(Vector2.left, direction) + 180f - transform.localEulerAngles.z) * Mathf.Deg2Rad;
+
+        return InRange(theta, 0, angle) ||
+            InRange(theta,  math.TAU, angle + math.TAU) ||
+            InRange(theta, -math.TAU, angle - math.TAU);
     }
 
     void UpdateLine()
@@ -91,8 +119,13 @@ public class Arc : Drawable
         lineRenderer.positionCount = lineFidelity;
         lineRenderer.SetPositions(path);
 
-        startCap.position = path[0];
-        endCap.position = path[^1];
+        startCapCol.offset = path[0].normalized * radius;
+        endCapCol.offset = path[^1].normalized * radius;
+    }
+
+    bool InRange(float value, float min, float max)
+    {
+        return min < value && value < max;
     }
 
 #if UNITY_EDITOR
