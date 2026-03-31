@@ -7288,10 +7288,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 3.97
       objectReference: {fileID: 0}
-    - target: {fileID: 807021160922749609, guid: 49a32e8a81396da4cb8f1d777db1b91d, type: 3}
-      propertyPath: levelManager
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3280579036464888831, guid: 49a32e8a81396da4cb8f1d777db1b91d, type: 3}
       propertyPath: m_Name
       value: GameSystems
