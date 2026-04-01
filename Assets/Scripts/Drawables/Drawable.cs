@@ -55,8 +55,6 @@ public abstract class Drawable : MonoBehaviour
         Vector2 midPoint = (posA + posB) / 2 + (sqrDiff / (2 * distSqr)) * (posB - posA);
         Vector2 pm = (Mathf.Sqrt(2 * sqrSum / distSqr - (sqrDiff * sqrDiff) / (distSqr * distSqr) - 1) / 2) * new Vector2(posB.y - posA.y, posA.x - posB.x);
 
-        Debug.Log((a.gameObject.name, b.gameObject.name, midPoint + pm, midPoint - pm));
-
         Vector3? p1 = a.IsValidPoint(midPoint + pm) && b.IsValidPoint(midPoint + pm) ? midPoint + pm : null;
         Vector3? p2 = a.IsValidPoint(midPoint - pm) && b.IsValidPoint(midPoint - pm) ? midPoint - pm : null;
 
@@ -81,10 +79,6 @@ public abstract class Drawable : MonoBehaviour
         
         Vector2 midPoint = cross / distSqr * new Vector2(rise, -run) + (Vector2) arc.transform.position;
         Vector2 pm = new(Mathf.Sign(rise) * run * Mathf.Sqrt(det) / distSqr, Mathf.Abs(rise) * Mathf.Sqrt(det) / distSqr);
-
-        Debug.Log((midPoint + pm, midPoint - pm));
-
-        //Debug.Log((line.IsValidPoint(midPoint + pm), arc.IsValidPoint(midPoint + pm), line.IsValidPoint(midPoint - pm), arc.IsValidPoint(midPoint - pm)));
 
         Vector3? p1 = line.IsValidPoint(midPoint + pm) && arc.IsValidPoint(midPoint + pm) ? midPoint + pm : null;
         Vector3? p2 = line.IsValidPoint(midPoint - pm) && arc.IsValidPoint(midPoint - pm) ? midPoint - pm : null;
