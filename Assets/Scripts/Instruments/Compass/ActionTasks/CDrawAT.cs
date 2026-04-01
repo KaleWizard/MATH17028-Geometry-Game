@@ -80,14 +80,14 @@ namespace NodeCanvas.Tasks.Actions {
 
             if (toMin > 0 && toMax < 0) return;
 
-            if (toMin < 0 && Mathf.Abs(toMin) < Mathf.Abs(toMax))
+            if (toMin < 0 && -toMin < Mathf.Abs(toMax))
             {
                 min += toMin;
 
                 inScene.SetArcLength(min * Mathf.Deg2Rad, max * Mathf.Deg2Rad);
                 inScene.SetRotation(direction);
             } 
-            else if (toMax > 0 && Mathf.Abs(toMin) > Mathf.Abs(toMax))
+            else if (toMax > 0 && Mathf.Abs(toMin) > toMax)
             {
                 max += toMax;
                 inScene.SetArcLength(min * Mathf.Deg2Rad, max * Mathf.Deg2Rad);
