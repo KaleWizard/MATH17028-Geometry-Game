@@ -8,6 +8,7 @@ namespace NodeCanvas.Tasks.Actions {
 
 	public class CHoverAT : ActionTask {
 
+		public BBParameter<float> radiusBBP;
 		public float compassSpan = 1f;
 
 		Compass compass;
@@ -22,7 +23,7 @@ namespace NodeCanvas.Tasks.Actions {
 		}
 
 		protected override void OnUpdate() {
-			compass.Hover();
+			compass.Hover(radiusBBP.value);
 			Anchor anchor = AnchorManager.GetHoveredAnchor();
 			if (anchor && Mouse.current.leftButton.wasPressedThisFrame && !GameUtils.CursorOverUI)
 			{

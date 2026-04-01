@@ -2374,7 +2374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NodeCanvas::NodeCanvas.StateMachines.FSMOwner
   _serializedExposedParameters: []
-  _boundGraphSerialization: '{"type":"NodeCanvas.StateMachines.FSM","nodes":[{"_actionList":{"executionMode":1,"actions":[]},"_color":{"r":0.6132076,"g":0.08861381,"a":1.0},"_name":"Wait","_position":{"x":-154.5315,"y":456.1833},"$type":"NodeCanvas.StateMachines.ActionState","$id":"0"},{"_nestedFSM":{"_value":1},"_position":{"x":-48.65491,"y":567.9717},"$type":"NodeCanvas.StateMachines.NestedFSMState","$id":"1"},{"_nestedFSM":{"_value":2},"_position":{"x":-276.3586,"y":691.8213},"$type":"NodeCanvas.StateMachines.NestedFSMState","$id":"2"},{"dontRetriggerStates":true,"_position":{"x":88.37151,"y":200.1665},"$type":"NodeCanvas.StateMachines.AnyState","$id":"3"},{"_actionList":{"executionMode":1,"actions":[{"$type":"NodeCanvas.Tasks.Actions.StopFSMAT"}]},"_color":{"r":1.0,"g":0.42,"b":0.32,"a":1.0},"_name":"Game
+  _boundGraphSerialization: '{"type":"NodeCanvas.StateMachines.FSM","nodes":[{"_actionList":{"executionMode":1,"actions":[]},"_color":{"r":0.6132076,"g":0.08861381,"a":1.0},"_name":"Wait","_position":{"x":-154.5315,"y":456.1833},"$type":"NodeCanvas.StateMachines.ActionState","$id":"0"},{"_nestedFSM":{"_value":1},"_position":{"x":-49.65491,"y":567.9717},"$type":"NodeCanvas.StateMachines.NestedFSMState","$id":"1"},{"_nestedFSM":{"_value":2},"_position":{"x":-276.3586,"y":691.8213},"$type":"NodeCanvas.StateMachines.NestedFSMState","$id":"2"},{"dontRetriggerStates":true,"_position":{"x":88.37151,"y":200.1665},"$type":"NodeCanvas.StateMachines.AnyState","$id":"3"},{"_actionList":{"executionMode":1,"actions":[{"$type":"NodeCanvas.Tasks.Actions.StopFSMAT"}]},"_color":{"r":1.0,"g":0.42,"b":0.32,"a":1.0},"_name":"Game
     Simulating","_position":{"x":101.8838,"y":341.8672},"$type":"NodeCanvas.StateMachines.ActionState","$id":"4"}],"connections":[{"_condition":{"triggerBBP":{"_name":"compassTrigger","_targetVariableID":"ab633585-7c4d-43bb-83da-9751f65989fd"},"$type":"NodeCanvas.Tasks.Conditions.TriggerCT"},"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"triggerBBP":{"_name":"straightEdgeTrigger","_targetVariableID":"0349a512-9a00-4e80-be55-71812179113b"},"$type":"NodeCanvas.Tasks.Conditions.TriggerCT"},"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"triggerBBP":{"_name":"straightEdgeTrigger","_targetVariableID":"0349a512-9a00-4e80-be55-71812179113b"},"$type":"NodeCanvas.Tasks.Conditions.TriggerCT"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"triggerBBP":{"_name":"compassTrigger","_targetVariableID":"ab633585-7c4d-43bb-83da-9751f65989fd"},"$type":"NodeCanvas.Tasks.Conditions.TriggerCT"},"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"triggerBBP":{"_name":"gameSimulating","_targetVariableID":"f6ca3295-0d23-48dc-924e-72ee8d39000f"},"$type":"NodeCanvas.Tasks.Conditions.TriggerCT"},"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.StateMachines.FSMConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}}}'
   _boundGraphObjectReferences:
   - {fileID: 0}
@@ -2384,8 +2384,8 @@ MonoBehaviour:
     _version: 3.41
     _category: 
     _comments: 
-    _translation: {x: 822.47345, y: -37.20731}
-    _zoomFactor: 0.9474385
+    _translation: {x: 826.6285, y: -68.17889}
+    _zoomFactor: 1
   _firstActivation: 0
   _enableAction: 0
   _disableAction: 0

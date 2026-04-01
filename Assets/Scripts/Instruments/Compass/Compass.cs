@@ -10,10 +10,11 @@ public class Compass : MonoBehaviour
     public float Span => drawPoint.localPosition.x;
 
 
-    public void Hover(float length = 1)
+    public void Hover(float length = -1)
     {
+        if (length < 0) length = maxLength;
         transform.position = GameUtils.WorldMousePosition();
-        drawPoint.localPosition = length * maxLength * Vector3.right;
+        drawPoint.localPosition = length * Vector3.right;
     }
 
     public Vector3 Measure(Vector3 anchor)
@@ -40,6 +41,7 @@ public class Compass : MonoBehaviour
 
     public bool IsValidAnchor(Vector3 anchor)
     {
-        return Vector3.Distance(anchor, transform.position) > 0.25f;
+        float dist = Vector3.Distance(anchor, transform.position);
+        return 0.25f < dist && dist < maxLength + 0.15f;
     }
 }
