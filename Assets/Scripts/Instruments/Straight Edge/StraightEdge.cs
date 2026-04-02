@@ -44,7 +44,9 @@ public class StraightEdge : MonoBehaviour
 
     public bool IsValidAnchor(Anchor anchor)
     {
-        return (anchorsSet == 0) || (anchorsSet == 1 && Vector3.Distance(anchor.transform.position, positionA) > 0.25f);
+        float dist = Vector3.Distance(anchor.transform.position, positionA);
+        return (anchorsSet == 0) || 
+            (anchorsSet == 1 && 0.25f < dist && dist < length + 0.15f);
     }
 
     void SetPositionRotation()

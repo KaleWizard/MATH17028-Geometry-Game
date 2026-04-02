@@ -1,20 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class DrawableManager : SingletonBehaviour<DrawableManager>
 {
+    public UnityEvent<int> OnNewDrawable = new();
+
     List<Line> lines = new();
     List<Arc> arcs = new();
 
-    public void AddDrawable(Line line)
+    int count = 0;
+
+    public void AddDrawable(Line line, bool userAdded = false)
     {
         lines.Add(line);
+        if (userAdded)
+        {
+            count++;
+            OnNewDrawable.Invoke(count);
+        }
     }
 
-    public void AddDrawable(Arc arc)
+    public void AddDrawable(Arc arc, bool userAdded = false)
     {
         arcs.Add(arc);
+        if (userAdded)
+        {
+            count++;
+            OnNewDrawable.Invoke(count);
+        }
     }
 
     public void TryAddAnchors(Line line)
@@ -70,5 +85,7 @@ public class DrawableManager : SingletonBehaviour<DrawableManager>
     {
         lines.Clear();
         arcs.Clear();
+        OnNewDrawable.RemoveAllListeners();
+        count = 0;
     }
 }

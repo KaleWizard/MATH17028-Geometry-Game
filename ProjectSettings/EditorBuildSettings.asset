@@ -9,11 +9,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 1cddc51b36b322540a336a920ec7f2ad
   - enabled: 1
-    path: Assets/Scenes/Testing/Drawing Testing.unity
-    guid: fd6ebaa2ad29d9f4fa3b0492f12ef474
+    path: Assets/Scenes/Levels/Level 1.unity
+    guid: 42b90ce4dac9b9942971e90a1c591470
   - enabled: 1
-    path: Assets/Scenes/Testing/Drawing Testing OMG.unity
-    guid: e4c55ed8aa891c1408132a82e03b0b5d
+    path: Assets/Scenes/Levels/Level 2.unity
+    guid: 7174794bec926a0469996350a31bca88
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 3.unity
+    guid: 308a604bb0e87274b88ca116c3447456
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 4.unity
+    guid: 3d70617d92edf634abc8ee6e3b868793
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 5.unity
+    guid: eccbb0477388c994d938be613cc2a494
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

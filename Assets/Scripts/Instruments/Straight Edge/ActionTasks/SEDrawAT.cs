@@ -66,7 +66,7 @@ namespace NodeCanvas.Tasks.Actions {
                     inScene.GenerateColliders();
                     drawingObj.value = null;
 
-                    DrawableManager.Instance.AddDrawable(inScene);
+                    DrawableManager.Instance.AddDrawable(inScene, true);
 
                     EndAction(true);
                 }

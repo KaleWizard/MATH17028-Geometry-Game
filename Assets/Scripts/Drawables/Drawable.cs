@@ -80,6 +80,9 @@ public abstract class Drawable : MonoBehaviour
         Vector2 midPoint = cross / distSqr * new Vector2(rise, -run) + (Vector2) arc.transform.position;
         Vector2 pm = new(Mathf.Sign(rise) * run * Mathf.Sqrt(det) / distSqr, Mathf.Abs(rise) * Mathf.Sqrt(det) / distSqr);
 
+        Debug.Log((line.gameObject.name, midPoint + pm, midPoint - pm));
+        Debug.DrawLine(midPoint + pm, midPoint - pm, Color.black);
+
         Vector3? p1 = line.IsValidPoint(midPoint + pm) && arc.IsValidPoint(midPoint + pm) ? midPoint + pm : null;
         Vector3? p2 = line.IsValidPoint(midPoint - pm) && arc.IsValidPoint(midPoint - pm) ? midPoint - pm : null;
 

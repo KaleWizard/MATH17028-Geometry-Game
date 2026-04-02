@@ -9,13 +9,12 @@ public class Line : Drawable
 
     public float Length => lineTransform.localScale.x;
 
+    [SerializeField] float length = 1;
+
     private void Start()
     {
         if (generateOnLoad)
         {
-            lineTransform.localScale = transform.localScale;
-            transform.localScale = Vector3.one;
-
             GenerateColliders();
 
             DrawableManager.Instance.AddDrawable(this);
@@ -46,7 +45,14 @@ public class Line : Drawable
         Vector2 start = transform.position;
         Vector2 end = transform.position + transform.right * lineTransform.localScale.x;
 
-        return Mathf.Min(start.x, end.x) < point.x && Mathf.Max(start.x, end.x) > point.x
-            && Mathf.Min(start.y, end.y) < point.y && Mathf.Max(start.y, end.y) > point.y;
+        return Mathf.Min(start.x, end.x) - 0.01f < point.x && Mathf.Max(start.x, end.x) + 0.01f > point.x
+            && Mathf.Min(start.y, end.y) - 0.01f < point.y && Mathf.Max(start.y, end.y) + 0.01f > point.y;
+    }
+
+    private void OnValidate()
+    {
+        if (!generateOnLoad) return;
+        SetPositionLength(transform.position, length);
+        GenerateColliders();
     }
 }

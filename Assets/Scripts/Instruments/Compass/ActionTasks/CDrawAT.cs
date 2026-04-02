@@ -64,7 +64,7 @@ namespace NodeCanvas.Tasks.Actions {
                 if (Mouse.current.leftButton.wasReleasedThisFrame)
                 {
                     inScene.GenerateColliders();
-                    DrawableManager.Instance.AddDrawable(inScene);
+                    DrawableManager.Instance.AddDrawable(inScene, true);
 
                     EndAction(true);
                 }
