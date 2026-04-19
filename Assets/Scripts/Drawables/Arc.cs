@@ -6,13 +6,10 @@ public class Arc : Drawable
 {
     [SerializeField] bool generateOnLoad = false;
 
-    [SerializeField] CompositeCollider2D compositeCol;
-    [SerializeField] CircleCollider2D outerFillCol;
-    [SerializeField] CircleCollider2D centerCutoutCol;
-    [SerializeField] PolygonCollider2D arcDividerCol;
-    [SerializeField] CircleCollider2D startCapCol;
-    [SerializeField] CircleCollider2D endCapCol;
+    [SerializeField] EdgeCollider2D edgeCollider;
+    [SerializeField] int maxColliderFidelity = 32;
     [Space]
+    [SerializeField] LineBuilder lineBuilder;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] int lineFidelity = 32;
     [Space]
@@ -73,23 +70,17 @@ public class Arc : Drawable
 
     public override void GenerateColliders()
     {
-        outerFillCol.radius = radius + 0.125f;
-        centerCutoutCol.radius = radius - 0.125f;
-
         // Get arc cutout points
-        Vector2[] path = new Vector2[polyFidelity];
+        Vector2[] path = new Vector2[maxColliderFidelity];
         path[0] = Vector2.zero;
 
-        float distance = radius * polyDistance;
-
-        for (int i = 0; i < path.Length - 1; i++) 
+        for (int i = 0; i < path.Length; i++) 
         {
-            float pointAngle = angle + (math.TAU - angle) * i / (polyFidelity - 2);
-            path[i + 1] = new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle)) * distance;
+            float pointAngle = angle * i / (maxColliderFidelity - 1);
+            path[i] = new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle)) * radius;
         }
 
-        arcDividerCol.SetPath(0, path);
-        compositeCol.GenerateGeometry();
+        edgeCollider.points = path;
     }
 
     public bool IsValidPoint(Vector2 point)
@@ -119,8 +110,7 @@ public class Arc : Drawable
         lineRenderer.positionCount = lineFidelity;
         lineRenderer.SetPositions(path);
 
-        startCapCol.offset = path[0].normalized * radius;
-        endCapCol.offset = path[^1].normalized * radius;
+        lineBuilder.SetLength(minAngle * math.TAU * radius, maxAngle * math.TAU * radius);
     }
 
     bool InRange(float value, float min, float max)
